@@ -27,16 +27,16 @@ const Form = ({ onSuccess, onError }) => {
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" label="Nom" />
-          <Field placeholder="" label="Prénom" />
-          <Select
+          <Field placeholder="Entrez votre Nom" label="Nom" />
+          <Field placeholder="Entrez votre Prenom" label="Prénom" />
+          <Select   
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
             label="Personel / Entreprise"
             type="large"
             titleEmpty
           />
-          <Field placeholder="" label="Email" />
+          <Field placeholder="Entrez votre Email" label="Email" />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
