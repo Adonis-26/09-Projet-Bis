@@ -16,6 +16,19 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
           type="text"
           name={name}
           placeholder={placeholder}
+          required
+          minLength={2}
+          data-testid="field-testid"
+        />
+      );
+      break;
+      case FIELD_TYPES.EMAIL:
+      component = (
+        <input
+          type="email"
+          placeholder={placeholder}
+          required
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
           data-testid="field-testid"
         />
       );
