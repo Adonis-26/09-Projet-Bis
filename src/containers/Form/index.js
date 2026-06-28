@@ -9,18 +9,20 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500)
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const [email, setEmail] = useState("");
-
+  const [formKey, setFormKey] = useState(0);
+  
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
       // We try to call mockContactApi
-      try {
+     try {
         await mockContactApi();
         setSending(false);
         onSuccess();
         setEmail("");
         evt.target.reset();
+        setFormKey((prev) => prev + 1); 
       } catch (err) {
         setSending(false);
         onError(err);
@@ -34,18 +36,20 @@ const Form = ({ onSuccess, onError }) => {
         <div className="col">
           <Field placeholder="Entrez votre Nom" label="Nom" />
           <Field placeholder="Entrez votre Prenom" label="Prénom" />
-          <Select   
+          <Select
+            key={formKey}
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
             label="Personel / Entreprise"
             type="large"
             titleEmpty
           />
-          <Field placeholder="Entrez votre Email" 
-          label="Email" 
-          type={FIELD_TYPES.EMAIL}
-          value={email}
-          onChange={(evt) => setEmail(evt.target.value)}
+          <Field
+            placeholder="Entrez votre Email"
+            label="Email"
+            type={FIELD_TYPES.EMAIL}
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
           />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
@@ -55,7 +59,6 @@ const Form = ({ onSuccess, onError }) => {
           <Field
             placeholder="message"
             label="Message"
-            required={20}
             type={FIELD_TYPES.TEXTAREA}
           />
         </div>
