@@ -8,6 +8,8 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500)
 
 const NAME_REGEX = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
 const EMAIL_REGEX = /^[a-z0-9-]+@[a-z0-9-]+\.[a-z]+$/i;
+const MESSAGE_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ0-9\s.,;:!?'"()\-\n]+$/;
+const MESSAGE_MAX_LENGTH = 500;
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
@@ -43,6 +45,12 @@ const Form = ({ onSuccess, onError }) => {
     if (!formData.message?.trim()) {
       return { message: "Entrez votre message" };
     }
+    if (formData.message.length > MESSAGE_MAX_LENGTH) {
+    return { message: `Message trop long (${MESSAGE_MAX_LENGTH} caractères maximum)` };
+  }
+  if (!MESSAGE_REGEX.test(formData.message)) {
+    return { message: "Caractères non autorisés détectés (< > { } notamment)" };
+  }
 
     return {};
   };
