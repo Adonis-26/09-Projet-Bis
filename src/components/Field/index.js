@@ -8,7 +8,15 @@ export const FIELD_TYPES = {
   EMAIL: 3,
 };
 
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, error }) => {
+const Field = ({
+  type = FIELD_TYPES.INPUT_TEXT,
+  label,
+  name,
+  placeholder,
+  error,
+  value,
+  onChange,
+}) => {
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -17,9 +25,11 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, error 
           type="text"
           name={name}
           placeholder={placeholder}
-          required
           minLength={2}
-          pattern="/^[a-zA-Z]+$"
+          pattern="^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$"
+          required
+          value={value}
+          onChange={onChange}
           data-testid="field-testid"
         />
       );
@@ -31,14 +41,22 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, error 
           name={name}
           placeholder={placeholder}
           required
-          pattern="/^[a-z0-9-]+@[a-z0-9-]+\.[a-z]+$"
+          pattern="^[a-z0-9-]+@[a-z0-9-]+\.[a-z]+$"
+          value={value}
+          onChange={onChange}
           data-testid="field-testid"
         />
       );
       break;
     case FIELD_TYPES.TEXTAREA:
       component = (
-        <textarea name={name} placeholder={placeholder} data-testid="field-testid" />
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          data-testid="field-testid"
+        />
       );
       break;
     default:
@@ -49,7 +67,9 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, error 
           placeholder={placeholder}
           required
           minLength={2}
-          pattern="/^[a-zA-Z]+$"
+          pattern="^[a-zA-Z]+$"
+          value={value}
+          onChange={onChange}
           data-testid="field-testid"
         />
       );
@@ -69,6 +89,8 @@ Field.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   error: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 Field.defaultProps = {
@@ -77,6 +99,8 @@ Field.defaultProps = {
   type: FIELD_TYPES.INPUT_TEXT,
   name: "field-name",
   error: "",
+  value: "",
+  onChange: () => null,
 };
 
 export default Field;
