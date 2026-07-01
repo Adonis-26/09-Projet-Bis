@@ -122,6 +122,7 @@ const Page = () => {
           date={new Date(last?.date)}
           small
           label="boom"
+          
         />
       </div>
       <div className="col contact">
